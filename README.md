@@ -53,7 +53,8 @@ Amazon EC2 Autoscaling + Amazon SQS
 * Multiple thread concurrently transmission, fully usage of bandwidth.  
 多线程，充分压榨带宽  
   
-  [Single Node Module -- -- 进入单机版](./single_node/)  
+  [Single Node Module -- -- 进入单机版(AliyunOSSToS3)](./single_node/AliyunOSSToS3)  
+  [Single Node Module -- -- 进入单机版(BceBOSToS3)](./single_node/BceBOSToS3)  
     
   Single node Module architecture - 单机版架构图如下：  
   
