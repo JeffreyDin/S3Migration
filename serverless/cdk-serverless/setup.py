@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
 
-    author="huangzb@amazon.com",
+    author="dingjianfeng@light2cloud.com",
 
     package_dir={"": "./"},
     packages=setuptools.find_packages(where="cdk"),
@@ -33,6 +33,7 @@ setuptools.setup(
         "aws-cdk.aws-iam>=1.30",
         "aws-cdk.aws_lambda_event_sources>=1.30",
         "aws-cdk.aws_s3_notifications>=1.30",
+        "aws-cdk.aws-events-targets>=1.41.0",
         "boto3"
     ],
 
