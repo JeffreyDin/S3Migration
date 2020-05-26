@@ -243,8 +243,11 @@ class DataFromBOSToS3:
             bos_client = self._bce_init_connection()
 
         try:
-            # file_directory_list = ['d/sinldo/bbsy/jk7oxTbYvqiq/1', 'd/sinldo/trsrmyy/XOq7eNQbyEJz/2',
+            # 'd/2eeQ7f', 'd/1442413150028', 'd/1442754128155', 'd/1444316556440', 'd/jieINz', 'd/yayYVv'
+            # file_directory_list = [
+            #                        'd/sinldo/bbsy/jk7oxTbYvqiq/1', 'd/sinldo/trsrmyy/XOq7eNQbyEJz/2',
             #                        'd/sinldo/yzrmyy/Pu5WmamyMfYj/3', 'd/sinldo/yzrmyy/QCYljhbqaYR3/4']   # 归档
+            # file_directory_list = ['d/2eeQ7f', 'c/1442413150028']
             file_directory_list = self.list_bos_csv()
             fixed_directory_list = []
             while len(file_directory_list) >= 1:
@@ -282,12 +285,11 @@ class DataFromBOSToS3:
                     self.makedir_directory_from_bos(fixed_directory_list,)
                 self.logger.warning(f'从 BOS 存储桶读取文件总数量：{len(file_list)} ')
                 self.logger.warning(f'从 BOS 存储桶读取文件总大小：{self._read_bos_file_size(size_list)} GB ')
-                print(fixed_directory_list)
                 if self._read_bos_file_size(size_list) <= str(700):
-                    # return self.download_file_from_bos(bos_client, file_list, fixed_directory_list)
+                    return self.download_file_from_bos(bos_client, file_list, fixed_directory_list)
                     # return threading.Thread(target=self.download_file_from_bos, name=f'bos',
                     #                         args=(bos_client, file_list, fixed_directory_list)).start()
-                    pass
+                    # pass
                 else:
                     self.logger.warning(f'从 BOS 存储桶读取文件总大小超过 700 GB')
 
@@ -552,12 +554,12 @@ class DataFromBOSToS3:
             # dir_zip_name = pathlib.Path(base_path, "__" +
             #                             datetime.datetime.now().replace(tzinfo=None).strftime("%Y%m%d-") +
             #                             pathlib.Path(base_path).name + ".zip")
-            dir_zip_name = os.path.join(base_path, "__" + pathlib.Path(base_path).name + ".zip")
+            dir_zip_name = os.path.join(base_path, "__" + pathlib.Path(base_path).name + ".zip").replace('\\', '/')
             with zipfile.ZipFile(
                     dir_zip_name,
                     'w') as new_zip:
                 for entry in file_lists:
-                    file_path = os.path.join(base_path, entry)
+                    file_path = os.path.join(base_path, entry[1:])
                     new_zip.write(file_path, entry)
             if len(new_zip.namelist()) == 0:
                 self.logger.critical(f'压缩当前路径：{base_path} 压缩数量：0，不上传该压缩包')
@@ -713,8 +715,8 @@ if __name__ == '__main__':
         # s3
         access_key='',
         secret_key='',
-        region='',                   # cn-northwest-1
+        region='',  # cn-northwest-1
         bucket='',
-        s3_storage_class='',         # STANDARD
+        s3_storage_class='',  # STANDARD
     )
     bos_s3.main_function()
